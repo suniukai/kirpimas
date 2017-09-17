@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Šuniukų kirpimas - Pet grooming</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <style>
+            #logo {
+                padding: 0 25%;
+            }
+            .active .nav-link {
+                border-bottom: 4px solid #000;
+            }
+            .fa-facebook-official {
+                color: #3B5998;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <nav class="navbar navbar-expand navbar-light">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link">Pradžia</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= $router->pathFor('bookings') ?>">Rezervacijos</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="row">
+                <div class="col">
+                    <h1 class="display-1 text-center">Šuniukų kirpimas</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md">
+                    <img id="logo" src="logo.jpg" alt="Logo" class="img-fluid">
+                    <p class="lead text-center">Madingas šuo - laimingas šuo!<br>Profesionalus ir kokybiškas įvairių
+                    veislių šuniukų kirpimas tiek pagal standartą, tiek pagal jūsų pageidavimą <strong>15 €</strong></p>
+                    <address class="text-center">
+                        <p><i class="fa fa-facebook-official"></i> <em><a href="https://fb.com/madingas.suo" target="_blank">madingas.suo</a></em></p>
+                        <div class="row">
+                            <div class="col-sm">
+                                <p>Katerina<br>
+                                <i class="fa fa-phone"></i> +370 652 65774</p>
+                            </div>
+                            <div class="col-sm">
+                                <p>Fabijoniškių 95, Vilnius<br>
+                                I-VII 9:00-21:00</p>
+                            </div>
+                        </div>
+                    </address>
+                </div>
+                <div class="col-md">
+                    <h2 class="display-4 text-center">Rezervacija</h2>
+                    <form method="post" action="<?= $router->pathFor('new') ?>" id="needs-validation" novalidate>
+                        <div class="form-group">
+                            <label for="name">Jūsų vardas</label>
+                            <input name="name" id="name" type="text" class="form-control" placeholder="Įveskite savo vardą" pattern="[A-Za-zĄ-Žą-ž]{3,}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Telefono numeris</label>
+                            <div class="input-group">
+                                <span class="input-group-addon">+370</span>
+                                <input name="phone" id="phone" type="tel" class="form-control" placeholder="69853333" aria-describedby="phone-help" maxlength="8" pattern="\d{8}" required>
+                            </div>
+                            <small id="phone-help" class="form-text text-muted">Jūsų telefono numeris (pvz., 69853333)</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="time">Vizito laikas</label>
+                            <select name="time" id="time" class="form-control" required>
+                                <option value="">Pasirinkite</option>
+                        <?php
+                        foreach($available_hours as $time): ?>
+                            <option value="<?= $time ?>"><?= $time ?></option>
+                        <?php
+                        endforeach;
+                        ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg">Rezervuoti laiką</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script>
+            (function() {
+            "use strict";
+            window.addEventListener("load", function() {
+                var form = document.getElementById("needs-validation");
+                form.addEventListener("submit", function(event) {
+                if (form.checkValidity() == false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add("was-validated");
+                }, false);
+            }, false);
+            }());
+        </script>
+    </body>
+</html>

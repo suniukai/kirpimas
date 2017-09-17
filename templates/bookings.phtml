@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Šuniukų kirpimas - Rezervacijos</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <style>
+            .active .nav-link {
+                border-bottom: 4px solid #000;
+            }
+            th a:hover {
+                text-decoration: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <nav class="navbar navbar-expand navbar-light">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= $router->pathFor('home') ?>">Pradžia</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link">Rezervacijos</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="row">
+                <div class="col">
+                    <h1 class="display-4 text-center">Rezervacijos</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <form method="get" action="<?= $router->pathFor('bookings') ?>">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input name="search" type="text" class="form-control" placeholder="Įveskite vardo fragmentą" value="<?= $params['search'] ?>">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i> Ieškoti</button>
+                                    <a class="btn btn-light" href="<?= $router->pathFor('bookings') ?>"><i class="fa fa-undo"></i></a>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <?php
+                    if (count($rows) > 0):
+                    ?>
+                    <table class="table table-hover table-sm">
+                        <thead class="thead-default">
+                            <tr>
+                                <th><a href="<?= $router->pathFor('bookings', [], array_merge($params, ['sort' => 'id'])) . ($params['sort'] == 'id' ? '&desc' : ''); ?>"># <i class="fa fa-sort"></i></a></th>
+                                <th><a href="<?= $router->pathFor('bookings', [], array_merge($params, ['sort' => 'time'])) . ($params['sort'] == 'time' ? '&desc' : ''); ?>">Vizito laikas <i class="fa fa-sort"></i></a></th>
+                                <th><a href="<?= $router->pathFor('bookings', [], array_merge($params, ['sort' => 'name'])) . ($params['sort'] == 'name' ? '&desc' : ''); ?>">Kliento vardas <i class="fa fa-sort"></i></a></th>
+                                <th><a href="<?= $router->pathFor('bookings', [], array_merge($params, ['sort' => 'masked_phone'])) . ($params['sort'] == 'masked_phone' ? '&desc' : ''); ?>">Telefonas <i class="fa fa-sort"></i></a></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                            foreach ($rows as $booking): ?>
+                            <tr<?= $booking->getId() == $id ? ' class="table-success"' : '' ?>>
+                                <th scope="row"><?= $booking->getId() ?></td>
+                                <td><?= $booking->getFormattedTime() ?></td>
+                                <td><?= $booking->getName() ?></td>
+                                <td><?= $booking->getMaskedPhone() ?></td>
+                            </tr>
+                        <?php
+                            endforeach; ?>
+                        </tbody>
+                    </table>
+                    <?php else: ?>
+                    <p>Nėra rezervacijų.</p>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <?php
+                    if ($pages > 1): ?>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                        <?php
+                        for ($i = 1; $i <= $pages; $i++): ?>
+                            <li class="page-item<?= ($i == $params['page'] ? ' disabled' : '') ?>"><a class="page-link" href="<?= $router->pathFor('bookings', [], array_merge($params, ['page' => $i])) ?>"><?= $i ?></a></li>
+                        <?php
+                        endfor; ?>
+                        </ul>
+                    </nav>
+                    <?php
+                    endif; ?>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
